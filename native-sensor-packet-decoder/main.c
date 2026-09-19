@@ -12,6 +12,16 @@ int byte_inicial_valido(uint8_t byte_inicial)
 
 }
 
+uint8_t calcular_checksum(
+    uint8_t inicio,
+    uint8_t tipo,
+    uint8_t temperatura,
+    uint8_t bateria
+)
+{
+    return inicio ^ tipo ^ temperatura ^ bateria;
+}
+
 
 int main(void)
 {
@@ -26,7 +36,7 @@ int main(void)
         printf("Byte inicial valido!\n");
 
         uint8_t checksum_recebido = pacote[4];
-        uint8_t checksum_calculado = pacote[0] ^ pacote[1] ^ pacote[2] ^ pacote[3];
+        uint8_t checksum_calculado = calcular_checksum(pacote[0], pacote[1], pacote[2], pacote[3]);
 
         printf("Checksum recebido: %02X\n", (unsigned) checksum_recebido);
         printf("Checksum calculado: %02X\n", (unsigned) checksum_calculado);
