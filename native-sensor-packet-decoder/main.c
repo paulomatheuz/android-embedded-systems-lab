@@ -1,13 +1,24 @@
 #include <stdio.h>
 #include <stdint.h>
 
+int byte_inicial_valido(uint8_t byte_inicial) 
+{
+    if (byte_inicial == 0xAA) {
+        return 1;
+    } else {
+        return 0;
+    }
+
+}
+
+
 int main(void)
 {
     uint8_t pacote[] = {0xAA, 0x01, 0x17, 0x64, 0xD8};
 
     printf("%02X %02X\n", (unsigned) pacote[0], (unsigned) pacote[4]);
 
-    if (pacote[0] == 0xAA) {
+    if (byte_inicial_valido(pacote[0])) {
         printf("Byte inicial valido!\n");
 
         uint8_t checksum_recebido = pacote[4];
