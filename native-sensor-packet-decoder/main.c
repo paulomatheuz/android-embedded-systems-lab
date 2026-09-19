@@ -9,6 +9,15 @@ int main(void)
 
     if (pacote[0] == 0xAA) {
         printf("Pacote valido!\n");
+
+        uint8_t tipo_sensor = pacote[1];
+        uint8_t temperatura = pacote[2];
+        uint8_t bateria = pacote[3];
+
+        printf("Tipo do sensor: %u\n", (unsigned) tipo_sensor);
+        printf("Temperatura: %u\n", (unsigned) temperatura);
+        printf("Bateria: %u\n", (unsigned) bateria);
+
     } else {
         printf("Pacote invalido!\n");
     }
