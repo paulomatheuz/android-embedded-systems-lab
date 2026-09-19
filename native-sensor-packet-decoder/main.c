@@ -22,6 +22,17 @@ uint8_t calcular_checksum(
     return inicio ^ tipo ^ temperatura ^ bateria;
 }
 
+int checksum_valido(
+    uint8_t checksum_calculado,
+    uint8_t checksum_recebido
+)
+{
+    if (checksum_calculado == checksum_recebido) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 int main(void)
 {
@@ -29,6 +40,8 @@ int main(void)
     assert(byte_inicial_valido(0xAB) == 0);
     assert(calcular_checksum(0xAA, 0x01, 0x17, 0x64) == 0xD8);
     assert(calcular_checksum(0x05, 0x03, 0x01, 0x00) == 0x07);
+    assert(checksum_valido(0xD8, 0xD8) == 1);
+    assert(checksum_valido(0xD8, 0xD9) == 0); 
 
     uint8_t pacote[] = {0xAA, 0x01, 0x17, 0x64, 0xD8};
 
@@ -43,7 +56,7 @@ int main(void)
         printf("Checksum recebido: %02X\n", (unsigned) checksum_recebido);
         printf("Checksum calculado: %02X\n", (unsigned) checksum_calculado);
 
-        if (checksum_recebido == checksum_calculado) {
+        if (checksum_valido(checksum_calculado, checksum_recebido)) {
             printf("Checksum valido!\n");
 
             uint8_t tipo_sensor = pacote[1];
