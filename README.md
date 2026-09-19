@@ -4,6 +4,8 @@ Repositório criado para registrar minha preparação para uma entrevista técni
 
 A jornada reúne estudos direcionados e o desenvolvimento de três projetos em diferentes linguagens, com foco na revisão de fundamentos, na evolução da lógica de programação e na aplicação prática dos conhecimentos exigidos para a oportunidade.
 
+![Banner O Caminho para o Eldorado](./assets/banner-readme.png)
+
 ## Status
 
 🚧 Em desenvolvimento
