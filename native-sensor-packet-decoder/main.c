@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <assert.h>
 
 int byte_inicial_valido(uint8_t byte_inicial) 
 {
@@ -14,6 +15,9 @@ int byte_inicial_valido(uint8_t byte_inicial)
 
 int main(void)
 {
+    assert(byte_inicial_valido(0xAA) == 1);
+    assert(byte_inicial_valido(0xAB) == 0);
+
     uint8_t pacote[] = {0xAA, 0x01, 0x17, 0x64, 0xD8};
 
     printf("%02X %02X\n", (unsigned) pacote[0], (unsigned) pacote[4]);
