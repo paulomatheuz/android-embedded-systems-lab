@@ -2,8 +2,11 @@ package com.paulomatheuz.motiondiagnostics
 
 import android.content.Context
 import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,17 +20,23 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.paulomatheuz.motiondiagnostics.ui.theme.MotionDiagnosticsTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : ComponentActivity(), SensorEventListener {
+    private lateinit var sensorManager: SensorManager
+    private var accelerometer: Sensor? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        val accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+
+        this.sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+
+        this.accelerometer = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         val statusResourceId =
             if (accelerometer != null) {
                 R.string.status_available
             } else {
                 R.string.status_unavailable
             }
+
         enableEdgeToEdge()
         setContent {
             MotionDiagnosticsTheme {
@@ -38,6 +47,35 @@ class MainActivity : ComponentActivity() {
                     )
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val currentAccelerometer = this.accelerometer
+        if (currentAccelerometer != null) {
+            sensorManager.registerListener(
+                this,
+                currentAccelerometer,
+                SensorManager.SENSOR_DELAY_UI
+            )
+        }
+    }
+
+    override fun onPause() {
+        sensorManager.unregisterListener(this)
+        super.onPause()
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+    }
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event != null) {
+            val x = event.values[0]
+            val y = event.values[1]
+            val z = event.values[2]
+            Log.d("MotionDiagnostics", "Valor x: $x, Valor y: $y, Valor z: $z")
         }
     }
 }
