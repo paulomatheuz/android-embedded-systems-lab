@@ -10,11 +10,13 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,13 +25,16 @@ import com.paulomatheuz.motiondiagnostics.ui.theme.MotionDiagnosticsTheme
 class MainActivity : ComponentActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
+    private val xState = mutableStateOf(0f)
+    private val yState = mutableStateOf(0f)
+    private val zState = mutableStateOf(0f)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        this.sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
-        this.accelerometer = this.sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         val statusResourceId =
             if (accelerometer != null) {
                 R.string.status_available
@@ -41,10 +46,14 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         setContent {
             MotionDiagnosticsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    DiagnosticsStatus(
-                        status = stringResource(statusResourceId),
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Column(modifier = Modifier.padding(innerPadding)) {
+                        DiagnosticsStatus(
+                            status = stringResource(statusResourceId)
+                        )
+                        Text(text = "X: ${xState.value}")
+                        Text(text = "Y: ${yState.value}")
+                        Text(text = "Z: ${zState.value}")
+                    }
                 }
             }
         }
@@ -52,7 +61,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        val currentAccelerometer = this.accelerometer
+
+        val currentAccelerometer = accelerometer
         if (currentAccelerometer != null) {
             sensorManager.registerListener(
                 this,
@@ -75,6 +85,11 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             val x = event.values[0]
             val y = event.values[1]
             val z = event.values[2]
+
+            xState.value = x
+            yState.value = y
+            zState.value = z
+
             Log.d("MotionDiagnostics", "Valor x: $x, Valor y: $y, Valor z: $z")
         }
     }
