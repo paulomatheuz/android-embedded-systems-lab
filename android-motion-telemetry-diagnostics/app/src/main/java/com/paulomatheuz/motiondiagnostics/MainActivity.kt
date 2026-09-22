@@ -90,7 +90,9 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             yState.value = y
             zState.value = z
 
-            Log.d("MotionDiagnostics", "Valor x: $x, Valor y: $y, Valor z: $z")
+            val magnitude = calculateMagnitude(x, y, z)
+
+            Log.d("MotionDiagnostics", "Valor x: $x, Valor y: $y, Valor z: $z, Magnitude: $magnitude")
         }
     }
 }
