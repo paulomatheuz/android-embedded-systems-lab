@@ -28,6 +28,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private val xState = mutableStateOf(0f)
     private val yState = mutableStateOf(0f)
     private val zState = mutableStateOf(0f)
+    private val magnitudeState = mutableStateOf(0f)
+    private val hasReadingState = mutableStateOf(false)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +52,18 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                         DiagnosticsStatus(
                             status = stringResource(statusResourceId)
                         )
-                        Text(text = "X: ${xState.value}")
-                        Text(text = "Y: ${yState.value}")
-                        Text(text = "Z: ${zState.value}")
+                        if (hasReadingState.value) {
+                            val xText = "%.2f".format(xState.value)
+                            Text(text = "X: ${xText} m/s²")
+                            val yText = "%.2f".format(yState.value)
+                            Text(text = "Y: ${yText} m/s²")
+                            val zText = "%.2f".format(zState.value)
+                            Text(text = "Z: ${zText} m/s²")
+                            val magnitudeText = "%.2f".format(magnitudeState.value)
+                            Text(text = "Magnitude: ${magnitudeText} m/s²")
+                        } else if (accelerometer != null) {
+                            Text("Aguardando leitura")
+                        }
                     }
                 }
             }
@@ -74,6 +85,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
     override fun onPause() {
         sensorManager.unregisterListener(this)
+        hasReadingState.value = false
         super.onPause()
     }
 
@@ -91,6 +103,10 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             zState.value = z
 
             val magnitude = calculateMagnitude(x, y, z)
+
+            magnitudeState.value = magnitude
+
+            hasReadingState.value = true
 
             Log.d("MotionDiagnostics", "Valor x: $x, Valor y: $y, Valor z: $z, Magnitude: $magnitude")
         }
