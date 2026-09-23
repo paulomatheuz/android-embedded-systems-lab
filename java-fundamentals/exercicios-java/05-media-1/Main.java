@@ -18,7 +18,7 @@ public class Main {
         System.out.println("Digite a nota B: ");
         float notaB = sc.nextFloat();
 
-        float media = (notaA * 3.5f) + (notaB * 7.5f) / 11.0f;
+        float media = ((notaA * 3.5f) + (notaB * 7.5f)) / 11.0f;
         
         System.out.printf("Media = %.5f%n", media);
 
