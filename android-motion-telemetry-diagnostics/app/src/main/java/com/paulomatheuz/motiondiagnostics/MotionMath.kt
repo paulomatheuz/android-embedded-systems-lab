@@ -2,6 +2,9 @@ package com.paulomatheuz.motiondiagnostics
 
 import kotlin.math.sqrt
 
+private const val STABLE_THRESHOLD = 0.10f
+private const val STRONG_MOTION_THRESHOLD = 2.0f
+
 enum class MotionStatus {
     STABLE,
     MOVING,
@@ -24,15 +27,13 @@ fun calculateMotionIntensity(
     val deltaY = currentY - previousY
     val deltaZ = currentZ - previousZ
 
-    val intensity = calculateMagnitude(deltaX, deltaY, deltaZ)
-
-    return intensity
+    return calculateMagnitude(deltaX, deltaY, deltaZ)
 }
 
 fun classifyMotionIntensity(intensity: Float): MotionStatus {
     return when {
-        intensity < 0.10f -> MotionStatus.STABLE
-        intensity < 2.0f -> MotionStatus.MOVING
+        intensity < STABLE_THRESHOLD -> MotionStatus.STABLE
+        intensity < STRONG_MOTION_THRESHOLD -> MotionStatus.MOVING
         else -> MotionStatus.STRONG_MOTION
     }
 }

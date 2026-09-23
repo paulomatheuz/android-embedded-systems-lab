@@ -7,7 +7,6 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -29,6 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.paulomatheuz.motiondiagnostics.ui.theme.MotionDiagnosticsTheme
 
+private const val STRONG_MOTION_HOLD_MILLIS = 750L
 
 class MainActivity : ComponentActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
-        val statusResourceId =
+        val accelerometerStatusResourceId =
             if (accelerometer != null) {
                 R.string.status_available
             } else {
@@ -80,8 +80,8 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                                     style = MaterialTheme.typography.headlineSmall
                                 )
 
-                                DiagnosticsStatus(
-                                    status = stringResource(statusResourceId)
+                                AccelerometerStatus(
+                                    status = stringResource(accelerometerStatusResourceId)
                                 )
                             }
                         }
@@ -255,7 +255,7 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                 val nowMillis = SystemClock.elapsedRealtime()
 
                 if (detectedStatus == MotionStatus.STRONG_MOTION) {
-                    strongMotionVisibleUntilMillis = nowMillis + 750L
+                    strongMotionVisibleUntilMillis = nowMillis + STRONG_MOTION_HOLD_MILLIS
                 }
 
                 val statusToDisplay =
@@ -266,8 +266,6 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     }
 
                 motionStatusState.value = statusToDisplay
-
-                Log.d("MotionDiagnostics", "Motion intensity: $motionIntensity")
             }
 
             previousX = x
@@ -283,17 +281,12 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             magnitudeState.value = magnitude
 
             hasReadingState.value = true
-
-            Log.d(
-                "MotionDiagnostics",
-                "Valor x: $x, Valor y: $y, Valor z: $z, Magnitude: $magnitude"
-            )
         }
     }
 }
 
 @Composable
-fun DiagnosticsStatus(
+fun AccelerometerStatus(
     status: String,
     modifier: Modifier = Modifier
 ) {
@@ -308,9 +301,9 @@ fun DiagnosticsStatus(
 
 @Preview(showBackground = true)
 @Composable
-fun DiagnosticsStatusPreview() {
+fun AccelerometerStatusPreview() {
     MotionDiagnosticsTheme {
-        DiagnosticsStatus(
+        AccelerometerStatus(
             status = stringResource(R.string.status_available)
         )
     }

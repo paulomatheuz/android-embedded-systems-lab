@@ -1,7 +1,7 @@
 package com.paulomatheuz.motiondiagnostics
 
-import org.junit.Test
 import org.junit.Assert.assertEquals
+import org.junit.Test
 
 class MotionMathTest {
     @Test
@@ -42,6 +42,22 @@ class MotionMathTest {
         assertEquals(
             MotionStatus.STRONG_MOTION,
             classifyMotionIntensity(3.50f)
+        )
+    }
+
+    @Test
+    fun classifyMotionIntensity_atStableBoundary_returnsMoving() {
+        assertEquals(
+            MotionStatus.MOVING,
+            classifyMotionIntensity(0.10f)
+        )
+    }
+
+    @Test
+    fun classifyMotionIntensity_atStrongMotionBoundary_returnsStrongMotion() {
+        assertEquals(
+            MotionStatus.STRONG_MOTION,
+            classifyMotionIntensity(2.0f)
         )
     }
 
