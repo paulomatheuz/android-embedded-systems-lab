@@ -25,6 +25,9 @@ import com.paulomatheuz.motiondiagnostics.ui.theme.MotionDiagnosticsTheme
 class MainActivity : ComponentActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private var accelerometer: Sensor? = null
+    private var previousX: Float? = null
+    private var previousY: Float? = null
+    private var previousZ: Float? = null
     private val xState = mutableStateOf(0f)
     private val yState = mutableStateOf(0f)
     private val zState = mutableStateOf(0f)
@@ -86,6 +89,9 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     override fun onPause() {
         sensorManager.unregisterListener(this)
         hasReadingState.value = false
+        previousX = null
+        previousY = null
+        previousZ = null
         super.onPause()
     }
 
@@ -97,6 +103,26 @@ class MainActivity : ComponentActivity(), SensorEventListener {
             val x = event.values[0]
             val y = event.values[1]
             val z = event.values[2]
+            val lastX = previousX
+            val lastY = previousY
+            val lastZ = previousZ
+
+            if (lastX != null && lastY != null && lastZ != null) {
+                val motionIntensity = calculateMotionIntensity(
+                    currentX = x,
+                    currentY = y,
+                    currentZ = z,
+                    previousX = lastX,
+                    previousY = lastY,
+                    previousZ = lastZ
+                )
+
+                Log.d("MotionDiagnostics", "Motion intensity: $motionIntensity")
+            }
+
+            previousX = x
+            previousY = y
+            previousZ = z
 
             xState.value = x
             yState.value = y
