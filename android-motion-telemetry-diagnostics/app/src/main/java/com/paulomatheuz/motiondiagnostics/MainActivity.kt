@@ -6,6 +6,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -33,6 +34,9 @@ class MainActivity : ComponentActivity(), SensorEventListener {
     private val zState = mutableStateOf(0f)
     private val magnitudeState = mutableStateOf(0f)
     private val hasReadingState = mutableStateOf(false)
+    private val motionIntensityState = mutableStateOf<Float?>(null)
+    private val motionStatusState = mutableStateOf<MotionStatus?>(null)
+    private var strongMotionVisibleUntilMillis = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,6 +68,15 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                             Text(text = "Z: ${zText} m/s²")
                             val magnitudeText = "%.2f".format(magnitudeState.value)
                             Text(text = "Magnitude: ${magnitudeText} m/s²")
+
+                            val currentIntensity = motionIntensityState.value
+                            val currentStatus = motionStatusState.value
+                            if (currentIntensity != null && currentStatus != null) {
+                                val intensityText = "%.2f".format(currentIntensity)
+
+                                Text(text = "Motion intensity: $intensityText m/s²")
+                                Text(text = "Motion status: ${currentStatus.name}")
+                            }
                         } else if (accelerometer != null) {
                             Text("Aguardando leitura")
                         }
@@ -92,6 +105,9 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         previousX = null
         previousY = null
         previousZ = null
+        motionIntensityState.value = null
+        motionStatusState.value = null
+        strongMotionVisibleUntilMillis = 0L
         super.onPause()
     }
 
@@ -116,6 +132,23 @@ class MainActivity : ComponentActivity(), SensorEventListener {
                     previousY = lastY,
                     previousZ = lastZ
                 )
+                motionIntensityState.value = motionIntensity
+
+                val detectedStatus = classifyMotionIntensity(motionIntensity)
+                val nowMillis = SystemClock.elapsedRealtime()
+
+                if (detectedStatus == MotionStatus.STRONG_MOTION) {
+                    strongMotionVisibleUntilMillis = nowMillis + 750L
+                }
+
+                val statusToDisplay =
+                    if (nowMillis < strongMotionVisibleUntilMillis) {
+                        MotionStatus.STRONG_MOTION
+                    } else {
+                        detectedStatus
+                    }
+
+                motionStatusState.value = statusToDisplay
 
                 Log.d("MotionDiagnostics", "Motion intensity: $motionIntensity")
             }
