@@ -4,7 +4,7 @@
 
 Este diretório não representa um projeto ou uma aplicação completa. Seu objetivo é reunir exercícios, anotações e exemplos desenvolvidos durante minha preparação técnica, permitindo acompanhar a evolução do meu aprendizado.
 
-![Banner Java Fundamentals](../assets/banner-readme.png)
+![Banner Java Fundamentals](./assets/banner-readme.png)
 
 ## Objetivo
 
