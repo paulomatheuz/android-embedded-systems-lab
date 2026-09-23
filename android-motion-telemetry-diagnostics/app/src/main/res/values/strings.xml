@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">Motion Diagnostics</string>
-    <string name="diagnostics_status_format">Motion Diagnostics: %1$s</string>
-    <string name="status_available">available</string>
-    <string name="status_unavailable">unavailable</string>
+    <string name="accelerometer_status_format">Accelerometer: %1$s</string>
+    <string name="status_available">Available</string>
+    <string name="status_unavailable">Unavailable</string>
+    <string name="motion_status_stable">Stable</string>
+    <string name="motion_status_moving">Moving</string>
+    <string name="motion_status_strong">Strong motion</string>
+    <string name="motion_status_format">Motion status: %1$s</string>
+    <string name="waiting_for_sensor_data">Waiting for sensor data</string>
+    <string name="axis_value_format">%1$s: %2$s m/s²</string>
+    <string name="magnitude_format">Magnitude: %1$s m/s²</string>
+    <string name="motion_intensity_format">Motion intensity: %1$s m/s²</string>
+    <string name="live_acceleration">Live acceleration</string>
 </resources>

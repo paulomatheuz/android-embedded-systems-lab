@@ -11,9 +11,14 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +26,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.paulomatheuz.motiondiagnostics.ui.theme.MotionDiagnosticsTheme
+
 
 class MainActivity : ComponentActivity(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
@@ -55,30 +62,140 @@ class MainActivity : ComponentActivity(), SensorEventListener {
         setContent {
             MotionDiagnosticsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Column(modifier = Modifier.padding(innerPadding)) {
-                        DiagnosticsStatus(
-                            status = stringResource(statusResourceId)
-                        )
+                    Column(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .padding(24.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp)
+                    ) {
+                        Card(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.app_name),
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
+
+                                DiagnosticsStatus(
+                                    status = stringResource(statusResourceId)
+                                )
+                            }
+                        }
                         if (hasReadingState.value) {
                             val xText = "%.2f".format(xState.value)
-                            Text(text = "X: ${xText} m/s²")
                             val yText = "%.2f".format(yState.value)
-                            Text(text = "Y: ${yText} m/s²")
                             val zText = "%.2f".format(zState.value)
-                            Text(text = "Z: ${zText} m/s²")
                             val magnitudeText = "%.2f".format(magnitudeState.value)
-                            Text(text = "Magnitude: ${magnitudeText} m/s²")
+
+                            Card(
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Column(
+                                    modifier = Modifier.padding(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.live_acceleration),
+                                        style = MaterialTheme.typography.titleMedium
+                                    )
+
+                                    Text(
+                                        text = stringResource(
+                                            R.string.axis_value_format,
+                                            "X",
+                                            xText
+                                        )
+                                    )
+
+                                    Text(
+                                        text = stringResource(
+                                            R.string.axis_value_format,
+                                            "Y",
+                                            yText
+                                        )
+                                    )
+
+                                    Text(
+                                        text = stringResource(
+                                            R.string.axis_value_format,
+                                            "Z",
+                                            zText
+                                        )
+                                    )
+
+                                    Text(
+                                        text = stringResource(
+                                            R.string.magnitude_format,
+                                            magnitudeText
+                                        )
+                                    )
+                                }
+                            }
 
                             val currentIntensity = motionIntensityState.value
                             val currentStatus = motionStatusState.value
+
                             if (currentIntensity != null && currentStatus != null) {
                                 val intensityText = "%.2f".format(currentIntensity)
 
-                                Text(text = "Motion intensity: $intensityText m/s²")
-                                Text(text = "Motion status: ${currentStatus.name}")
+                                val statusText = when (currentStatus) {
+                                    MotionStatus.STABLE ->
+                                        stringResource(R.string.motion_status_stable)
+
+                                    MotionStatus.MOVING ->
+                                        stringResource(R.string.motion_status_moving)
+
+                                    MotionStatus.STRONG_MOTION ->
+                                        stringResource(R.string.motion_status_strong)
+                                }
+
+                                val cardColor = when (currentStatus) {
+                                    MotionStatus.STABLE ->
+                                        MaterialTheme.colorScheme.tertiaryContainer
+
+                                    MotionStatus.MOVING ->
+                                        MaterialTheme.colorScheme.secondaryContainer
+
+                                    MotionStatus.STRONG_MOTION ->
+                                        MaterialTheme.colorScheme.errorContainer
+                                }
+
+                                Card(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    colors = CardDefaults.cardColors(
+                                        containerColor = cardColor
+                                    )
+                                ) {
+                                    Column(
+                                        modifier = Modifier.padding(16.dp),
+                                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        Text(
+                                            text = stringResource(
+                                                R.string.motion_status_format,
+                                                statusText
+                                            ),
+                                            style = MaterialTheme.typography.titleLarge
+                                        )
+
+                                        Text(
+                                            text = stringResource(
+                                                R.string.motion_intensity_format,
+                                                intensityText
+                                            ),
+                                            style = MaterialTheme.typography.bodyLarge
+                                        )
+                                    }
+                                }
                             }
                         } else if (accelerometer != null) {
-                            Text("Aguardando leitura")
+                            Text(
+                                text = stringResource(R.string.waiting_for_sensor_data)
+                            )
                         }
                     }
                 }
@@ -167,15 +284,24 @@ class MainActivity : ComponentActivity(), SensorEventListener {
 
             hasReadingState.value = true
 
-            Log.d("MotionDiagnostics", "Valor x: $x, Valor y: $y, Valor z: $z, Magnitude: $magnitude")
+            Log.d(
+                "MotionDiagnostics",
+                "Valor x: $x, Valor y: $y, Valor z: $z, Magnitude: $magnitude"
+            )
         }
     }
 }
 
 @Composable
-fun DiagnosticsStatus(status: String, modifier: Modifier = Modifier) {
+fun DiagnosticsStatus(
+    status: String,
+    modifier: Modifier = Modifier
+) {
     Text(
-        text = stringResource(R.string.diagnostics_status_format, status),
+        text = stringResource(
+            R.string.accelerometer_status_format,
+            status
+        ),
         modifier = modifier
     )
 }
