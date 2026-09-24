@@ -17,7 +17,7 @@ O programa processa um pacote fixo de cinco bytes, valida seu marcador inicial, 
 | Android/JNI | Fora do escopo desta versão |
 | Status | Primeira versão funcional concluída |
 
-Este é o projeto em C de uma preparação técnica intensiva para uma oportunidade na área de Android embarcado.
+Este projeto integra um laboratório de estudos práticos em sistemas embarcados e concentra-se na camada nativa e no processamento confiável de dados binários.
 
 O escopo foi mantido propositalmente pequeno: a prioridade foi desenvolver uma implementação funcional, testável e compreensível dos fundamentos nativos antes de adicionar Android, JNI ou comunicação real com hardware.
 
@@ -144,8 +144,8 @@ A implementação foi desenvolvida e validada no Windows com GCC.
 ### 1. Clone o repositório
 
 ```powershell
-git clone https://github.com/paulomatheuz/o-caminho-para-eldorado.git
-cd o-caminho-para-eldorado/native-sensor-packet-decoder
+git clone https://github.com/paulomatheuz/android-embedded-systems-lab.git
+cd android-embedded-systems-lab/native-sensor-packet-decoder
 ```
 
 ### 2. Crie a pasta de saída
