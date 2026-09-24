@@ -42,7 +42,7 @@ Conforme os estudos avançarem, este diretório poderá receber conteúdos sobre
 
 ## Contexto
 
-Este diretório faz parte do repositório [O Caminho para o Eldorado](../README.md), criado para registrar minha preparação para uma oportunidade na área de Android embarcado.
+Este diretório integra o repositório [Android Embedded Systems Lab](../README.md) e reúne exercícios utilizados para fortalecer fundamentos relevantes ao desenvolvimento Android com Kotlin.
 
 O estudo de Java contribui para reforçar conceitos de lógica, orientação a objetos e organização de código que também são importantes no desenvolvimento Android com Kotlin.
 
