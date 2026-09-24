@@ -221,8 +221,8 @@ Para executar a análise estática:
 ### 1. Clone o repositório
 
 ```powershell
-git clone https://github.com/paulomatheuz/o-caminho-para-eldorado.git
-cd o-caminho-para-eldorado/android-motion-telemetry-diagnostics
+git clone https://github.com/paulomatheuz/android-embedded-systems-lab.git
+cd android-embedded-systems-lab/android-motion-telemetry-diagnostics
 ```
 
 ### 2. Abra o projeto
@@ -346,4 +346,4 @@ A prioridade foi entregar uma aplicação pequena, real e demonstrável, compree
 
 Desenvolvido por [Paulo Matheus](https://github.com/paulomatheuz).
 
-Este projeto é pessoal e educacional. Ele não representa o Instituto Eldorado e não utiliza informações internas, confidenciais ou proprietárias da instituição.
+Este é um projeto pessoal e educacional desenvolvido com APIs públicas do Android.
