@@ -1,76 +1,115 @@
-# O Caminho para o Eldorado
+# Android Embedded Systems Lab
 
-Repositório criado para registrar minha preparação para uma entrevista técnica voltada à área de Android embarcado no Instituto Eldorado.
+Laboratório de projetos e estudos práticos em Android embarcado, sensores, telemetria e processamento de dados em C, Java e Kotlin.
 
-A jornada reúne estudos direcionados e o desenvolvimento de projetos em C e Kotlin, com foco na revisão de fundamentos, na evolução da lógica de programação e na aplicação prática de conhecimentos relacionados a sistemas embarcados e desenvolvimento Android.
+O repositório reúne implementações funcionais, testes automatizados e exercícios utilizados para desenvolver conhecimentos em integração com hardware, processamento de dados, ciclo de vida Android e fundamentos de programação.
 
-![Banner O Caminho para o Eldorado](./assets/banner-readme.png)
+## Visão geral
 
-## Status
-
-🚧 Em desenvolvimento
-
-O repositório é atualizado progressivamente com novos exercícios, funcionalidades, testes e documentação.
+| Área | Conteúdo |
+|---|---|
+| Android embarcado | Integração com sensores e ciclo de vida |
+| Telemetria | Aquisição, processamento e apresentação de dados |
+| Programação nativa | Manipulação de bytes e validação de pacotes em C |
+| Kotlin | Fundamentos utilizados no desenvolvimento Android |
+| Java | Lógica, orientação a objetos e fundamentos da plataforma |
+| Qualidade | Testes automatizados, documentação e Git |
 
 ## Projetos
 
+### [Android Motion Telemetry Diagnostics](./android-motion-telemetry-diagnostics)
+
+Aplicação Android desenvolvida em Kotlin e Jetpack Compose que lê o acelerômetro do dispositivo e apresenta telemetria em tempo real.
+
+O aplicativo exibe os valores dos eixos X, Y e Z, calcula a magnitude da aceleração e compara amostras consecutivas para classificar o movimento como `Stable`, `Moving` ou `Strong motion`.
+
+#### Funcionalidades
+
+- detecção da disponibilidade do acelerômetro;
+- leitura contínua dos eixos X, Y e Z;
+- cálculo da magnitude da aceleração;
+- cálculo da intensidade entre amostras consecutivas;
+- classificação do movimento;
+- interface reativa com Jetpack Compose;
+- retenção visual de alertas fortes;
+- registro e cancelamento do sensor conforme o ciclo de vida;
+- testes unitários para cálculos, classificações e valores de limite;
+- documentação com arquitetura, screenshots e vídeo.
+
+#### Tecnologias
+
+- Kotlin;
+- Android SDK;
+- `SensorManager`;
+- `SensorEventListener`;
+- Jetpack Compose;
+- Material 3;
+- JUnit 4;
+- Gradle.
+
+**Status:** versão funcional `v1.0.0` publicada.
+
+[Ver documentação](./android-motion-telemetry-diagnostics/README.md)  
+[Ver release v1.0.0](https://github.com/paulomatheuz/android-embedded-systems-lab/releases/tag/v1.0.0)  
+[Baixar APK demonstrativo](https://github.com/paulomatheuz/android-embedded-systems-lab/releases/download/v1.0.0/motion-diagnostics-v1.0.0-debug.apk)
+
+---
+
 ### [Native Sensor Packet Decoder](./native-sensor-packet-decoder)
 
-Decoder de pacotes de sensores desenvolvido em C para praticar comunicação binária, validação de dados, operações bit a bit e fundamentos aplicáveis a sistemas embarcados.
+Decoder de pacotes de sensores desenvolvido em C para praticar comunicação binária, validação de dados e operações bit a bit aplicáveis a sistemas embarcados.
 
-O programa interpreta um pacote de cinco bytes, valida seu marcador inicial, calcula um checksum com XOR e extrai os dados somente quando o pacote é considerado válido.
+O programa interpreta um pacote fixo de cinco bytes, valida seu marcador inicial, recalcula o checksum com XOR e extrai os dados somente quando o pacote é considerado válido.
 
-**Tecnologias e conceitos:**
+#### Conceitos demonstrados
 
-- C;
 - arrays de bytes;
-- `uint8_t`;
+- tipos inteiros de tamanho definido;
 - operações bit a bit;
 - checksum XOR;
-- validação de dados;
+- validação de estrutura;
+- separação de responsabilidades;
 - testes com `assert`;
 - compilação com GCC.
 
 **Status:** primeira versão funcional concluída.
 
+[Ver documentação](./native-sensor-packet-decoder/README.md)
+
+## Fundamentos
+
+### [Kotlin Fundamentals](./kotlin-fundamentals)
+
+Coleção incremental de exercícios utilizados para desenvolver os fundamentos da linguagem Kotlin necessários para aplicações Android.
+
+#### Conteúdos praticados
+
+- estrutura básica de um programa;
+- variáveis e tipos;
+- operadores e manipulação de texto;
+- estruturas condicionais;
+- estruturas de repetição;
+- funções;
+- entrada e conversão de dados;
+- coleções;
+- valores anuláveis.
+
+**Status:** estudos em andamento.
+
 ---
-
-### [Android Motion Telemetry Diagnostics](./android-motion-telemetry-diagnostics)
-
-Aplicação Android desenvolvida em Kotlin para acessar o acelerômetro do dispositivo e apresentar os valores dos eixos X, Y e Z, além da magnitude total da aceleração.
-
-O projeto explora a integração com sensores do Android, o ciclo de vida da aplicação e a construção de interfaces com Jetpack Compose.
-
-**Tecnologias e conceitos:**
-
-- Kotlin;
-- Android SDK;
-- `SensorManager`;
-- acelerômetro;
-- Jetpack Compose;
-- Material 3;
-- gerenciamento de ciclo de vida;
-- testes unitários com JUnit;
-- Gradle.
-
-**Status:** em desenvolvimento.
-
-## Estudos e exercícios
 
 ### [Java Fundamentals](./java-fundamentals)
 
-Área destinada à revisão dos fundamentos da linguagem Java por meio de exercícios de lógica de programação.
+Área dedicada à revisão dos fundamentos da linguagem Java por meio de exercícios de lógica e resolução de problemas.
 
-Os exercícios abordam leitura de dados, operadores, estruturas condicionais, cálculos matemáticos e formatação de resultados.
+O conteúdo reforça conceitos que também aparecem no desenvolvimento Android com Kotlin, como tipos, controle de fluxo, métodos, objetos e organização de código.
 
-Este diretório representa uma etapa de estudo e preparação. Ele ainda não constitui um projeto completo.
-
-**Conteúdos praticados:**
+#### Conteúdos praticados
 
 - entrada e saída de dados;
 - tipos primitivos;
-- operadores aritméticos;
 - variáveis;
+- operadores aritméticos;
 - estruturas condicionais;
 - cálculos matemáticos;
 - formatação de valores;
@@ -78,32 +117,83 @@ Este diretório representa uma etapa de estudo e preparação. Ele ainda não co
 
 **Status:** estudos em andamento.
 
-## Estrutura atual
+[Ver documentação](./java-fundamentals/README.md)
+
+## Fluxos técnicos explorados
+
+### Sensor Android
 
 ```text
-o-caminho-para-eldorado/
+Acelerômetro físico
+        ↓
+Driver e HAL
+        ↓
+Framework Android
+        ↓
+SensorManager
+        ↓
+SensorEventListener
+        ↓
+Processamento das amostras
+        ↓
+Estado observável
+        ↓
+Interface Compose
+```
+
+O aplicativo Android atua na camada de aplicação e utiliza as APIs públicas fornecidas pelo framework. O projeto não implementa nem afirma acesso direto ao driver ou à HAL.
+
+### Pacote nativo
+
+```text
+Pacote de bytes
+        ↓
+Validação do marcador
+        ↓
+Cálculo do checksum
+        ↓
+Comparação do checksum
+        ↓
+Extração dos dados
+        ↓
+Resultado válido ou erro
+```
+
+Esse fluxo representa uma versão reduzida do processamento realizado por software que recebe dados de sensores ou controladores externos.
+
+## Estrutura do repositório
+
+```text
+android-embedded-systems-lab/
 ├── android-motion-telemetry-diagnostics/
 │   ├── app/
+│   ├── docs/
 │   ├── gradle/
+│   ├── README.md
 │   ├── build.gradle.kts
-│   ├── gradle.properties
 │   ├── gradlew
 │   ├── gradlew.bat
 │   └── settings.gradle.kts
-├── assets/
-│   └── banner-readme.png
-├── java-fundamentals/
-│   ├── exercicios-java/
-│   └── README.md
 ├── native-sensor-packet-decoder/
 │   ├── main.c
 │   └── README.md
+├── kotlin-fundamentals/
+│   └── exercicios/
+├── java-fundamentals/
+│   ├── assets/
+│   ├── exercicios-java/
+│   └── README.md
+├── assets/
 └── README.md
 ```
 
-Cada diretório reúne o código e a documentação correspondentes à sua finalidade.
+Cada diretório possui uma finalidade específica:
 
-Os projetos possuem escopos próprios, enquanto a área `java-fundamentals` registra exercícios e conteúdos utilizados durante a revisão da linguagem Java.
+- `android-motion-telemetry-diagnostics`: aplicação Android funcional;
+- `native-sensor-packet-decoder`: processamento nativo de pacotes em C;
+- `kotlin-fundamentals`: exercícios e fundamentos de Kotlin;
+- `java-fundamentals`: exercícios e fundamentos de Java;
+- `assets`: recursos utilizados pela documentação principal.
 
 ## Tecnologias
 
@@ -112,21 +202,76 @@ Os projetos possuem escopos próprios, enquanto a área `java-fundamentals` regi
 - Kotlin;
 - Android SDK;
 - Jetpack Compose;
+- Material 3;
 - Gradle;
+- JUnit;
 - GCC;
 - Git;
 - GitHub.
 
-## Metodologia de desenvolvimento
+## Práticas de desenvolvimento
 
-O desenvolvimento é realizado de forma incremental. Cada projeto ou área de estudo é dividido em pequenas etapas, permitindo compreender, implementar, testar e documentar cada evolução antes de avançar.
+Os projetos são desenvolvidos incrementalmente. Cada evolução procura formar uma unidade pequena, compreensível e verificável.
 
-Os commits funcionam como uma linha do tempo do aprendizado, registrando desde os primeiros exercícios e estruturas até a implementação de funcionalidades mais completas.
+As práticas utilizadas incluem:
+
+- commits incrementais;
+- separação de cálculos testáveis;
+- testes automatizados;
+- validação em dispositivo físico;
+- documentação de decisões técnicas;
+- tratamento explícito de limitações;
+- uso consciente do ciclo de vida Android;
+- releases versionadas;
+- demonstrações com screenshots e vídeo.
+
+## Como explorar o repositório
+
+Clone o repositório:
+
+```powershell
+git clone https://github.com/paulomatheuz/android-embedded-systems-lab.git
+cd android-embedded-systems-lab
+```
+
+Para abrir o aplicativo Android, carregue diretamente esta pasta no Android Studio:
+
+```text
+android-motion-telemetry-diagnostics
+```
+
+As instruções completas para executar, testar e gerar o APK estão disponíveis no [README do aplicativo](./android-motion-telemetry-diagnostics/README.md).
+
+O projeto em C possui instruções próprias de compilação e execução no [README do decoder](./native-sensor-packet-decoder/README.md).
+
+## Limites do escopo
+
+Os projetos deste repositório possuem finalidade prática e educacional.
+
+O aplicativo Android utiliza a API pública de sensores e não implementa driver, HAL ou acesso privilegiado. O decoder em C utiliza pacotes simulados e não se comunica diretamente com hardware externo.
+
+Esses limites são documentados para que cada projeto seja apresentado de maneira tecnicamente precisa e verificável.
+
+## Próximas evoluções
+
+Possíveis extensões do laboratório:
+
+- separação entre gravidade e aceleração linear;
+- filtragem de sinais;
+- cálculo da taxa de amostragem;
+- exportação de telemetria;
+- integração entre Kotlin e código nativo com JNI;
+- processamento de outros sensores;
+- testes instrumentados de interface;
+- estudo de arquitetura Android;
+- comunicação com dispositivos externos.
 
 ## Objetivo
 
-Mais do que uma preparação para uma entrevista, esta jornada representa uma oportunidade de transformar estudo em prática, fortalecer minha base como estudante de Engenharia de Software e demonstrar minha evolução por meio de código organizado, documentação e projetos funcionais.
+Transformar fundamentos de programação em implementações funcionais e documentar minha evolução em Android embarcado, sensores, telemetria e processamento de dados.
 
-Este é um repositório pessoal e educacional. Seu conteúdo não representa o Instituto Eldorado e não utiliza informações internas, confidenciais ou proprietárias da instituição.
+A prioridade é construir projetos pequenos, tecnicamente honestos e demonstráveis, compreendendo desde a origem dos dados até seu processamento, validação e apresentação.
+
+---
 
 Desenvolvido por [Paulo Matheus](https://github.com/paulomatheuz).
