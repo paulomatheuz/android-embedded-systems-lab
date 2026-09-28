@@ -4,7 +4,7 @@ Laboratório de projetos e estudos práticos em Android embarcado, sensores, tel
 
 O repositório reúne implementações funcionais, testes automatizados e exercícios utilizados para desenvolver conhecimentos em integração com hardware, processamento de dados, ciclo de vida Android e fundamentos de programação.
 
-![Android Embedded Systems Lab](./assets/banner-readme.png)
+![Android Embedded Systems Lab](./assets/banner-readme1.png)
 
 ## Visão geral
 
